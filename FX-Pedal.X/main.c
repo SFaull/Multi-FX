@@ -1,9 +1,12 @@
 #include "p33fxxxx.h"
 #include "multifx.h"
+#include "SRAM.h"
+#include "LCD.h"
 #include <xc.h>
 #include <libpic30.h>
 #include <stdio.h>
 #include <dsp.h>
+
 
 int main (void)
 {
