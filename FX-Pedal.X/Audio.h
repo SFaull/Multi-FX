@@ -28,34 +28,21 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef LCD_H
-#define	LCD_H
+#ifndef AUDIO_H
+#define	AUDIO_H
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-#define LCD_D4   LATBbits.LATB8     // LCD data pin 4
-#define LCD_D5   LATBbits.LATB9     // LCD data pin 5
-#define LCD_D6   LATBbits.LATB10    // LCD data pin 6
-#define LCD_D7   LATBbits.LATB11    // LCD data pin 7
-#define LCD_EN   LATBbits.LATB12    // LCD EN pin
-#define LCD_RS   LATBbits.LATB13    // LCD RS pin
+void initADC(void);
+void initDAC(void);
+void initDMA(void);
+void initTimer1(void);
+void initTimer3(void);
 
-// Simplified LCD commands
-#define LCD_clear() LCD_cmd(0x01)           // Clear display
-#define LCD_line1() LCD_setPosition(0x00)   // Change address to write to 1st line
-#define LCD_line2() LCD_setPosition(0x40)   // Change address to write to 2nd line
+void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void);
+void __attribute__((interrupt, no_auto_psv)) _DAC1RInterrupt(void);
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void);
 
-void initLCD(void);
-void LCD_setPosition(unsigned int c);
-void LCD_cmd(unsigned int c);
-void LCD_pulse(void);
-void LCD_upperNibble(unsigned int c);
-void LCD_lowerNibble(unsigned int c);
-void LCD_putChar(unsigned int c);
-void LCD_putString(char *buffer);
-
-// LCD
-void updateLCD(void);
 
 #ifdef	__cplusplus
 extern "C" {

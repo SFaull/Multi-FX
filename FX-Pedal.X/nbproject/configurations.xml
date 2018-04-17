@@ -7,6 +7,15 @@
       <itemPath>multifx.h</itemPath>
       <itemPath>SRAM.h</itemPath>
       <itemPath>LCD.h</itemPath>
+      <itemPath>Delay.h</itemPath>
+      <itemPath>Serial.h</itemPath>
+      <itemPath>Chorus.h</itemPath>
+      <itemPath>Distortion.h</itemPath>
+      <itemPath>Tremolo.h</itemPath>
+      <itemPath>Filter.h</itemPath>
+      <itemPath>Volume.h</itemPath>
+      <itemPath>Encoder.h</itemPath>
+      <itemPath>Audio.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -19,6 +28,15 @@
       <itemPath>multifx.c</itemPath>
       <itemPath>SRAM.c</itemPath>
       <itemPath>LCD.c</itemPath>
+      <itemPath>Delay.c</itemPath>
+      <itemPath>Serial.c</itemPath>
+      <itemPath>Tremolo.c</itemPath>
+      <itemPath>Distortion.c</itemPath>
+      <itemPath>Chorus.c</itemPath>
+      <itemPath>Filter.c</itemPath>
+      <itemPath>Volume.c</itemPath>
+      <itemPath>Encoder.c</itemPath>
+      <itemPath>Audio.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

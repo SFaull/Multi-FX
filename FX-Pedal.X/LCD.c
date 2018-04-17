@@ -2,9 +2,8 @@
 #include "p33fxxxx.h"
 #include "multifx.h"
 #include <libpic30.h>
+#include <stdio.h>
 
-
-extern int MODE;                      // Current effect mode number
 // Parameters for various effects, later converted to strings for LCD
 extern int   dist_th;     // threshold as a percentage
 extern float trem_speed;   // tremolo speed in Hz
@@ -116,16 +115,18 @@ void updateLCD(void)
     char chorus_param[18] = {};     // Stores "Speed:[value]s"
     
     LCD_clear();    // first clear display
-    switch(MODE)
+    mode_t mode = getMode();
+    
+    switch(mode)
     {
-        case 1: // MODE 1: Clean (no effect)
+        case kMode_clean: // MODE 1: Clean (no effect)
             LCD_line1();
             LCD_putString("Clean\0");
             LCD_line2();
             LCD_putString("No effect\0");
             break;
 
-        case 2: // MODE 2: Distortion
+        case kMode_distortion: // MODE 2: Distortion
             sprintf(dist_param, "Th:%d\0", dist_th); // Converts value to be part of string
             
             LCD_line1();
@@ -140,7 +141,7 @@ void updateLCD(void)
                 LCD_putString("Sym\0");
             break;
 
-        case 3: // MODE 3: Tremolo
+        case kMode_tremolo: // MODE 3: Tremolo
             sprintf(trem_param, "Speed:%.1fHz\0", trem_speed); // Converts value to be part of string
             
             LCD_line1();
@@ -149,7 +150,7 @@ void updateLCD(void)
             LCD_putString(trem_param);
             break;
 
-        case 4: // MODE 4: Delay
+        case kMode_delay: // MODE 4: Delay
             sprintf(del_time_param, "Time:%dms", delay_time); // Converts value to be part of string
             sprintf(del_decay_param, "Dec:%.1f\0", delay_decay); // Converts value to be part of string
 
@@ -161,7 +162,7 @@ void updateLCD(void)
             LCD_putString(del_time_param);
             break;
 
-        case 5: // MODE 5: Chorus
+        case kMode_chorus: // MODE 5: Chorus
             sprintf(chorus_param, "Speed:%.2fs\0", chorus_speed); // Converts value to be part of string
             
             LCD_line1();

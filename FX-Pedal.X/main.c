@@ -1,12 +1,19 @@
 #include "p33fxxxx.h"
-#include "multifx.h"
-#include "SRAM.h"
-#include "LCD.h"
+
 #include <xc.h>
 #include <libpic30.h>
 #include <stdio.h>
 #include <dsp.h>
 
+#include "multifx.h"
+#include "SRAM.h"
+#include "LCD.h"
+#include "Serial.h"
+#include "Audio.h"
+#include "Delay.h"
+#include "Distortion.h"
+#include "Tremolo.h"
+#include "Chorus.h"
 
 int main (void)
 {
@@ -26,9 +33,7 @@ int main (void)
     
     /* Variable initializations */
     extern fractional Buffer[NUMSAMP];	  // Sample buffer
-    extern int MODE;                      // Current effect mode number
     extern int DMAflag;                   // DMA Flag
-    extern int i;                         // Counter variable
     fractional output_sample;             // Stores modified sample to be written to DAC
     
     /* Main loop */
@@ -36,23 +41,33 @@ int main (void)
     {        
         if(DMAflag)    // When DMA has filled the buffer
         {  
+            int i;
             for(i = 0; i < NUMSAMP; i++)    // Cycle through all samples in the buffer
             {
                 while(DAC1STATbits.LEMPTY != 1);    // Wait for D/A conversion
 
-                // Main effects 
-                if (MODE==1)        // No effect
-                    output_sample = Buffer[i];
-                else if (MODE==2)   // Distortion
-                    output_sample = distortion(Buffer[i]);	
-                else if (MODE==3)   // Tremolo
-                    output_sample = tremolo(Buffer[i]);
-                else if (MODE==4)   // Delay
-                    output_sample = delay(Buffer[i]);              
-                else if (MODE==5)   // Chorus
-                    output_sample = chorus(Buffer[i]);
-                else                // If unknown state is reached revert to mode 1
-                    MODE = 1;
+                mode_t mode = getMode();
+                switch(mode)
+                {
+                    case kMode_clean:
+                        output_sample = Buffer[i];
+                        break;
+                    case kMode_distortion:
+                        output_sample = distortion(Buffer[i]);	
+                        break;
+                    case kMode_tremolo:
+                        output_sample = tremolo(Buffer[i]);
+                        break;
+                    case kMode_delay:
+                        output_sample = delay(Buffer[i]);  
+                        break;
+                    case kMode_chorus:
+                        output_sample = chorus(Buffer[i]);
+                        break;
+                    default:
+                        setMode(kMode_clean);
+                        break;
+                }
 
                 DAC1LDAT = output_sample;      // Load the DAC buffer with data
                 DMAflag = 0;                   // Reset DMA flag
