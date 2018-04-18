@@ -33,15 +33,17 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
+#define Fs   		44211                   // Sampling frequency
+#define SAMPPRD     (FCY/Fs)-1              // Sampling period
+#define NUMSAMP     128                     // Number of samples in sample buffer - MUST NOT EXCEED 512
+
 void initADC(void);
 void initDAC(void);
 void initDMA(void);
-void initTimer1(void);
 void initTimer3(void);
 
 void __attribute__((interrupt, no_auto_psv)) _DMA0Interrupt(void);
 void __attribute__((interrupt, no_auto_psv)) _DAC1RInterrupt(void);
-void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void);
 
 
 #ifdef	__cplusplus

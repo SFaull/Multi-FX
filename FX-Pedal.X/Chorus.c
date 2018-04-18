@@ -1,7 +1,21 @@
 #include "Chorus.h"
 #include "multifx.h"
+#include "Audio.h"
+#include <stdbool.h>
 
 int chorusPeriod = 195; // chorus period used to determine the frequency (default value)
+float chorusFreq;
+
+int chorus_get_period(void) { return chorusPeriod; }
+float chorus_get_freq(void) { return chorusFreq; }
+
+void chorus_set_period(int percentage) 
+{ 
+        chorusPeriod = (Fs/340) * (1 + (0.01*percentage)); // set chorus speed using period
+        //TODO - sort out below and explain magic numbers
+        chorusFreq = 2*(1 + (0.01*percentage)); // save speed to be displayed on lcd
+        // equation gives a speed of between 2 and 4 seconds
+}
 
 signed int chorus(signed int chorus_in)
 {
@@ -36,12 +50,12 @@ signed int chorus(signed int chorus_in)
     {
         if (delay_dir == 0) // delay length is increasing
         {
-            LED = 0; 
+            rate_led_enabled(false);
             delay_len++;
         }
         else    // delay length is decreasing
         {
-            LED = 1;
+            rate_led_enabled(true);
             delay_len--;
         } 
         LFO = 0;  // reset LFO
@@ -57,9 +71,4 @@ signed int chorus(signed int chorus_in)
     sample_out = (sample_out>>1) + chorus_in; // add the delayed sample (attenuated) to the current sample
 
     return sample_out;
-}
-
-void chorus_set_period(int period)
-{
-    chorusPeriod = period;
 }

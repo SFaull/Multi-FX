@@ -34,7 +34,9 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 signed int chorus(signed int chorus_in);
-void chorus_set_period(int period);
+float chorus_get_freq(void);
+int chorus_get_period(void);
+void chorus_set_period(int percentage);
 
 #ifdef	__cplusplus
 extern "C" {

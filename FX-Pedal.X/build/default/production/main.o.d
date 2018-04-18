@@ -8,4 +8,5 @@ Serial.h  \
 Delay.h  \
 Distortion.h  \
 Tremolo.h  \
-Chorus.h 
+Chorus.h  \
+Encoder.h 

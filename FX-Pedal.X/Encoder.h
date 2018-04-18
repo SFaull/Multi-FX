@@ -33,8 +33,17 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
+#define ENCFREQ     500                     // Frequency to check encoder pin
+#define ENCPRD      ((FCY/256)/ENCFREQ)-1   // Period to check encoder pin
+
+#define ROTARY_L PORTAbits.RA2      // Rotary encoder pin L
+#define ROTARY_R PORTAbits.RA3      // Rotary encoder pin R
+
+
 void knobTurned(int L, int R);
 void initTimer1(void);
+
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void);
 
 #ifdef	__cplusplus
 extern "C" {

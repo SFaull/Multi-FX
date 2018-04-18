@@ -1,10 +1,22 @@
 #include "Tremolo.h"
 #include "multifx.h"
+#include "Audio.h"
 #include "Volume.h"
 #include "Filter.h"
+#include <stdbool.h>
 
 int tremPeriod = 200;   // tremolo period used to determine the frequency (default value)
+float tremFreq;
 
+int tremolo_get_period(void) { return tremPeriod; }
+float tremolo_get_freq(void) { return tremFreq; }
+
+void tremolo_set_period(int percentage) 
+{ 
+    int maxFreq = 10;
+    float tremFreq = (percentage * 0.01 * maxFreq);    // received is a percentage so scale accordingly (max 15Hz)
+    tremPeriod = (Fs/(tremFreq*31))-1;
+}
 
 signed int tremolo(signed int trem_in)
 {
@@ -21,12 +33,12 @@ signed int tremolo(signed int trem_in)
 
         if (direction == 1)
         {
-            LED = 1;
+            rate_led_enabled(true);
             tremVol++;
         }
         else
         {
-            LED = 0;
+            rate_led_enabled(false);
             tremVol--;
         }
         LFO = 0;    // reset LFO
@@ -38,11 +50,4 @@ signed int tremolo(signed int trem_in)
     trem_in = lowpass(trem_in);   // Basic lpf to reduce high freq amplitude transient noise
     
     return trem_in;
-}
-
-
-
-void tremolo_set_period(int period)
-{
-    tremPeriod = period;
 }

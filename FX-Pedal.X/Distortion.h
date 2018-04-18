@@ -35,9 +35,14 @@
 #include <stdbool.h>
 
 signed int distortion(signed int dist_in);
+int distortion_get_percentage(void);
+bool distortion_get_symetric(void);
+float distortion_get_negative_cutoff(void);
+float distortion_get_positive_cutoff(void);
 void distortion_set_positive_cutoff(float threshold);
 void distortion_set_negative_cutoff(float threshold);
 void distortion_set_symetric(bool is_symetric);
+void distortion_set_percentage(int percentage);
 
 #ifdef	__cplusplus
 extern "C" {

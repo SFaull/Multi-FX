@@ -34,7 +34,9 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 signed int tremolo(signed int trem_in);
-void tremolo_set_period(int period);
+float tremolo_get_freq(void);
+int tremolo_get_period(void);
+void tremolo_set_period(int percentage);
 
 #ifdef	__cplusplus
 extern "C" {

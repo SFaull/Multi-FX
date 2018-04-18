@@ -38,11 +38,15 @@
 #include <xc.h>
 #include <libpic30.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <dsp.h>
 
 
-mode_t audio_mode;
+mode_t fx_mode;
 
+void set_fx_mode(mode_t mode) { fx_mode = mode; }   // set current fx mode
+mode_t get_fx_mode(void) { return fx_mode; }        // get current fx mode
+void rate_led_enabled(bool state) { LED = state; }  // set rate LED on or OFF
 
 void initOsc(void)
 {
@@ -61,25 +65,15 @@ void initOsc(void)
 	while(OSCCONbits.LOCK!=1) {};               // Wait for PLL to lock
 }
 
-
 void initIO(void)
 {
     ADPCFG = 0xFFFB; // all PORTB = Digital except RB2 = analogue
     
     TRISBbits.TRISB4 = 0;   // RB4 as output for Rate LED
-    LED = 0;                // LED initially off 
+    rate_led_enabled(true);   // LED initially off 
     
     // Encoder inputs
     TRISAbits.TRISA2 = 1;
     TRISAbits.TRISA3 = 1;
 }
 
-void setMode(mode_t mode)
-{
-    audio_mode = mode;
-}
-
-mode_t getMode(void)
-{
-    return audio_mode;
-}

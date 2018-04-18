@@ -33,6 +33,9 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
+#define BAUDRATE    9600                    // Baud rate for UART
+#define BRGVAL      ((FCY/BAUDRATE)/16)-1   // BRG value calculated from baud rate definition
+
 void applyCom(void);
 void initUART(void);
 

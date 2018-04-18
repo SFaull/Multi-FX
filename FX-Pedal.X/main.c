@@ -14,6 +14,7 @@
 #include "Distortion.h"
 #include "Tremolo.h"
 #include "Chorus.h"
+#include "Encoder.h"
 
 int main (void)
 {
@@ -46,7 +47,7 @@ int main (void)
             {
                 while(DAC1STATbits.LEMPTY != 1);    // Wait for D/A conversion
 
-                mode_t mode = getMode();
+                mode_t mode = get_fx_mode();
                 switch(mode)
                 {
                     case kMode_clean:
@@ -65,7 +66,7 @@ int main (void)
                         output_sample = chorus(Buffer[i]);
                         break;
                     default:
-                        setMode(kMode_clean);
+                        set_fx_mode(kMode_clean);
                         break;
                 }
 

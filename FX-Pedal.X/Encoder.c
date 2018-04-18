@@ -1,13 +1,14 @@
 #include "Encoder.h"
 #include "LCD.h"
 #include "multifx.h"
+#include <stdbool.h>
 
 void knobTurned(int L, int R)
 {    
     static int state = 0;           // will store two bits for pins A & B on the encoder which we will get from the pins above
     static int bump[] = {0,0,1,-1};
     
-    mode_t current_mode = getMode();
+    mode_t current_mode = get_fx_mode();
     int modeInt = (int)current_mode;    // cast to int
     
     state = 0;          // reset each time
@@ -27,12 +28,27 @@ void knobTurned(int L, int R)
      else if (modeInt < 0) // dont go lower than the minimum mode value
          modeInt = 4;      // loop round instead
      
-     setMode((mode_t)modeInt);
+     set_fx_mode((mode_t)modeInt);
 
-     LED = 0;       // turn rate LED off
+     rate_led_enabled(false);       // turn rate LED off
      updateLCD();   // update LCD because mode has changed
 
 }
+
+void initTimer1(void)   // Timer to periodically check encoder pin
+{
+    T1CONbits.TON = 0;      // Disable Timer
+    T1CONbits.TCS = 0;      // Select internal instruction cycle clock
+    T1CONbits.TGATE = 0;    // Disable Gated Timer mode
+    T1CONbits.TCKPS = 0b11; // Select 1:256 Prescaler
+    TMR1 = 0x00;            // Clear timer register
+    PR1 = ENCPRD;           // Load the period value
+    IPC0bits.T1IP = 0x01;   // Set Timer1 Interrupt Priority Level
+    IFS0bits.T1IF = 0;      // Clear Timer1 Interrupt Flag
+    IEC0bits.T1IE = 1;      // Enable Timer1 interrupt
+    T1CONbits.TON = 1;      // Start Timer
+}
+
 
 // Run when Timer1 interrupt is triggered
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)

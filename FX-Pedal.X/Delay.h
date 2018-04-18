@@ -34,8 +34,10 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 signed int delay(signed int delay_in);
+float delay_get_decay(void);
+int delay_get_delay_time(void);
 void delay_set_decay(int decay);
-void delay_set_delay_time(int delayTime);
+void delay_set_delay_time(int percentage);
 
 #ifdef	__cplusplus
 extern "C" {

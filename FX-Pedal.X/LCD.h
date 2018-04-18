@@ -47,10 +47,6 @@
 
 void initLCD(void);
 void LCD_setPosition(unsigned int c);
-void LCD_cmd(unsigned int c);
-void LCD_pulse(void);
-void LCD_upperNibble(unsigned int c);
-void LCD_lowerNibble(unsigned int c);
 void LCD_putChar(unsigned int c);
 void LCD_putString(char *buffer);
 

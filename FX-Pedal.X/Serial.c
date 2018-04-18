@@ -23,12 +23,7 @@ unsigned char identifier = '\0';    // character that indicated operation to per
 unsigned char message[2] = "";      // message holds data, usually as percentage
 unsigned int  msgCounter = 0;       // counter for received message
 
-// Parameters for various effects, later converted to strings for LCD
-int   dist_th = 50;     // threshold as a percentage
-float trem_speed = 5;   // tremolo speed in Hz
-int   delay_time = 741; // delay time is seconds
-float delay_decay = 50; // delay decay as percentage
-float chorus_speed = 3; // chorus speed in Hz
+
 
 void initUART(void)
 {
@@ -102,7 +97,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 
 void applyCom(void)
 {
-    LED = 0;    // turn rate LED off
+    rate_led_enabled(false);    // turn rate LED off
     
     unsigned int msg;
     sscanf(message, "%d", &msg);    // convert from char array to actual integer
@@ -112,7 +107,7 @@ void applyCom(void)
     if (identifier == 'm')  // set the effect mode
     {
         mode = (mode_t)msg; // cast to mode_t enum - TODO: this may not work
-        setMode(mode);
+        set_fx_mode(mode);
         /*
         switch ( msg )
         {                              
@@ -141,48 +136,31 @@ void applyCom(void)
     
     else if (identifier == 'f') // set the trem frequency
     {
-        int maxFreq = 10;
         msg = msg+1;                                // 0->99 becomes 1->100
-        float tremfreq = (msg * 0.01 * maxFreq);    // received is a percentage so scale accordingly (max 15Hz)
-        trem_speed = tremfreq;                      // store to display on LCD
-        chorus_set_period( (Fs/(tremfreq*31))-1 );
+        tremolo_set_period(msg);
     }
     
     else if (identifier == 'd') // set the delay decay
     {
-        delay_decay = (100-(msg*6.25));  // save percentage to be displayed on lcd
         delay_set_decay(msg);                  // Set decay volume
     }
     
     else if (identifier == 't') // set the delay time
     {
         msg = msg+1;                        // 0->99 becomes 1->100
-        unsigned long tmp = 655.36 * msg;
-        unsigned long delayTime = tmp*2;   // double the result since we store each sample as 2 bytes
-        
-        delay_time = 1482*(1-(msg*0.01)); // save time to be displayed on lcd
-
-        delay_set_delay_time(delayTime);   // set read according to delay time
-
+        delay_set_delay_time(msg);  // set delay time by entering a percentage
     }
     
     else if (identifier == 'g') // set the distortion threshold
     {
         msg = msg+1;                        // 0->99 becomes 1->100
-        dist_th = msg;                      // save percentage to be displayed on lcd
-        msg = 100-msg;                      // invert percentage
-        float threshold = 0.0035 * msg;     // calculate threshold
-        distortion_set_positive_cutoff(threshold);
-        distortion_set_positive_cutoff(threshold*(-1));
+        distortion_set_percentage(msg);
     }
     
     else if (identifier == 'p') // set the chorus speed
     {
-        int chorus_period = (Fs/340) * (1 + (0.01*(msg+1))); // set chorus speed using period
-        chorus_set_period(chorus_period);
-        //TODO - sort out below
-        chorus_speed = 2*(1 + (0.01*(msg+1))); // save speed to be displayed on lcd
-        // equation gives a speed of between 2 and 4 seconds
+        msg = msg+1;
+        chorus_set_period(msg);
     }
     
     else if (identifier == 's') // set the distortion type
