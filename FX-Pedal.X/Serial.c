@@ -106,6 +106,7 @@ void applyCom(void)
     
     if (identifier == 'm')  // set the effect mode
     {
+        msg = msg-1;
         mode = (mode_t)msg; // cast to mode_t enum - TODO: this may not work
         set_fx_mode(mode);
         /*
