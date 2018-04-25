@@ -23,10 +23,10 @@ void knobTurned(int L, int R)
      
      modeInt = modeInt + bump[state]; // Add direction from bump position to MODE
      
-     if (modeInt > 4)      // dont exceed maximum mode value
+     if (modeInt >= (int)kMode_count)      // dont exceed maximum mode value
          modeInt = 0;      // loop round instead
      else if (modeInt < 0) // dont go lower than the minimum mode value
-         modeInt = 4;      // loop round instead
+         modeInt = (int)kMode_count - 1;      // loop round instead
      
      set_fx_mode((mode_t)modeInt);
 

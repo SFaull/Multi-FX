@@ -14,7 +14,7 @@ float tremolo_get_freq(void) { return tremFreq; }
 void tremolo_set_period(int percentage) 
 { 
     int maxFreq = 10;
-    float tremFreq = (percentage * 0.01 * maxFreq);    // received is a percentage so scale accordingly (max 15Hz)
+    tremFreq = ((float)percentage * 0.01f * (float)maxFreq);    // received is a percentage so scale accordingly (max 15Hz)
     tremPeriod = (Fs/(tremFreq*31))-1;
 }
 

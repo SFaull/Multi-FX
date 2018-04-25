@@ -19,13 +19,16 @@ typedef enum {
     kMode_distortion = 1,
     kMode_tremolo = 2,
     kMode_delay = 3,
-    kMode_chorus = 4
+    kMode_chorus = 4,
+    kMode_test = 5,
+    kMode_count = 6
 } mode_t;
 
 /* Function declarations */
 // Initialisations
 void initOsc(void);
 void initIO(void);
+void setDefaults(void);
 void rate_led_enabled(bool state);
 void set_fx_mode(mode_t mode);
 mode_t get_fx_mode(void);

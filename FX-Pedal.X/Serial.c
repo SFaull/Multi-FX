@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <dsp.h>
+#include "LCD.h"
 #include "Serial.h"
 #include "Audio.h"
 #include "Delay.h"

@@ -72,3 +72,46 @@ signed int chorus(signed int chorus_in)
 
     return sample_out;
 }
+
+signed int test(signed int sample)
+{
+    
+    /*
+    unsigned int lost_bit = rand() % 15;
+    signed int mask = (0b0000000000000001 << lost_bit);
+    mask = ~mask;
+    return (sample & mask);
+     */
+    
+
+    return (sample & 0b0101010101010101);
+
+    
+    /*
+    return (sample & 0b1010101010101010);
+    */
+    
+    /*
+    signed int temp = sample << 4;
+    return (temp >> 4);
+    */
+    
+    
+    /*
+    static unsigned int count = 0;
+    static unsigned int limit = 2;
+    
+    if (count == limit)
+    {
+        count = 0;
+        // random int between 0 and 3 
+        limit = rand() % 2;
+        return sample;
+    }
+    else
+    {
+        count++;
+        return 0;
+    }
+    */
+}

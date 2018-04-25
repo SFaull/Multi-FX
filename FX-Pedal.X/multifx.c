@@ -35,6 +35,10 @@
 #include "multifx.h"
 #include "SRAM.h"
 #include "LCD.h"
+#include "Delay.h"
+#include "Distortion.h"
+#include "Tremolo.h"
+#include "Chorus.h"
 #include <xc.h>
 #include <libpic30.h>
 #include <stdio.h>
@@ -77,3 +81,15 @@ void initIO(void)
     TRISAbits.TRISA3 = 1;
 }
 
+void setDefaults(void)
+{
+    // TODO: All of these functions accept a percentage as the argument - they should be renamed to make this obvious
+    distortion_set_percentage(50);
+    distortion_set_symetric(true);
+    tremolo_set_period(50);
+    chorus_set_period(50);
+    delay_set_delay_time(50);
+    
+    // TODO: this function sets to a discrete level - 0-16... could this be more intuitive?
+    delay_set_decay(8);
+}

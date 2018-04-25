@@ -125,36 +125,36 @@ void updateLCD(void)
         case kMode_clean: // MODE 1: Clean (no effect)
         {
             LCD_line1();
-            LCD_putString("Clean\0");
+            LCD_putString("Clean");
             LCD_line2();
-            LCD_putString("No effect\0");
+            LCD_putString("No effect");
             break;
         }
         case kMode_distortion: // MODE 2: Distortion
         {
             int dist_th = distortion_get_percentage();
             // TODO fix "embedded '\0' in format" error... snprintf guarantees to put nul at the end of buffer it writes to so just omit the '\0'?
-            sprintf(dist_param, "Th:%d\0", dist_th); // Converts value to be part of string
+            sprintf(dist_param, "Th:%d", dist_th); // Converts value to be part of string
             
             LCD_line1();
-            LCD_putString("Distortion\0");
+            LCD_putString("Distortion");
             LCD_line2();
             LCD_putString(dist_param);
-            LCD_putString("% \0");
-            LCD_putString("Type:\0");
+            LCD_putString("% ");
+            LCD_putString("Type:");
             if (distortion_get_symetric())
-                LCD_putString("Sym\0");
+                LCD_putString("Sym");
             else
-                LCD_putString("Asym\0");
+                LCD_putString("Asym");
             break;
         }
         case kMode_tremolo: // MODE 3: Tremolo
         {
             float trem_speed = tremolo_get_freq();
-            sprintf(trem_param, "Speed:%.1fHz\0", trem_speed); // Converts value to be part of string
+            sprintf(trem_param, "Speed:%.1fHz", (double)trem_speed); // Converts value to be part of string
             
             LCD_line1();
-            LCD_putString("Tremolo\0");
+            LCD_putString("Tremolo");
             LCD_line2();
             LCD_putString(trem_param);
             break;
@@ -165,12 +165,12 @@ void updateLCD(void)
             float delay_decay = delay_get_decay();
             
             sprintf(del_time_param, "Time:%dms", delay_time); // Converts value to be part of string
-            sprintf(del_decay_param, "Dec:%.1f\0", delay_decay); // Converts value to be part of string
+            sprintf(del_decay_param, "Dec:%.1f", (double)delay_decay); // Converts value to be part of string
 
             LCD_line1();
-            LCD_putString("Delay  \0");
+            LCD_putString("Delay  ");
             LCD_putString(del_decay_param);
-            LCD_putString("%\0");
+            LCD_putString("%");
             LCD_line2();
             LCD_putString(del_time_param);
             break;
@@ -178,10 +178,10 @@ void updateLCD(void)
         case kMode_chorus: // MODE 5: Chorus
         {
             float chorus_speed = chorus_get_freq();
-            sprintf(chorus_param, "Speed:%.2fs\0", chorus_speed); // Converts value to be part of string
+            sprintf(chorus_param, "Speed:%.2fs", (double)chorus_speed); // Converts value to be part of string
             
             LCD_line1();
-            LCD_putString("Chorus\0");
+            LCD_putString("Chorus");
             LCD_line2();
             LCD_putString(chorus_param);
             break;
@@ -189,9 +189,9 @@ void updateLCD(void)
         default: // Error - unexpected MODE
         {
             LCD_line1();
-            LCD_putString("Error\0");
+            LCD_putString("Error");
             LCD_line2();
-            LCD_putString("Unknown Mode\0");
+            LCD_putString("Unknown Mode");
             break;
         }
     }

@@ -31,6 +31,7 @@ int main (void)
     initSRAM(seq);  // Setup SRAM in Sequential mode
     initLCD();      // Initialise the LCD
     updateLCD();    // Update the display for startup
+    setDefaults();  // set default effect parameters
     
     /* Variable initializations */
     extern fractional Buffer[NUMSAMP];	  // Sample buffer
@@ -65,6 +66,10 @@ int main (void)
                     case kMode_chorus:
                         output_sample = chorus(Buffer[i]);
                         break;
+                    case kMode_test:
+                        output_sample = test(Buffer[i]);
+                        break;
+                        
                     default:
                         set_fx_mode(kMode_clean);
                         break;
