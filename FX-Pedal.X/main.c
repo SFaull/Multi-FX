@@ -67,7 +67,15 @@ int main (void)
                         output_sample = chorus(Buffer[i]);
                         break;
                     case kMode_test:
+                        /*
                         output_sample = test(Buffer[i]);
+                        output_sample = lowpass(output_sample);
+                         * */
+                        output_sample = delay(Buffer[i]);
+                        output_sample = distortion(output_sample);	
+                        
+                        output_sample = test(output_sample);
+                        //output_sample = delay(output_sample);
                         break;
                         
                     default:

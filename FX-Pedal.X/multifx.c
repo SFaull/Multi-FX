@@ -84,7 +84,7 @@ void initIO(void)
 void setDefaults(void)
 {
     // TODO: All of these functions accept a percentage as the argument - they should be renamed to make this obvious
-    distortion_set_percentage(75);
+    distortion_set_percentage(90);
     distortion_set_symetric(true);
     tremolo_set_period(50);
     chorus_set_period(50);

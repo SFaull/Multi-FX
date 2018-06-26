@@ -2,6 +2,7 @@
 #include "multifx.h"
 #include "Audio.h"
 #include <stdbool.h>
+#include <math.h> 
 
 int chorusPeriod = 195; // chorus period used to determine the frequency (default value)
 float chorusFreq;
@@ -75,6 +76,14 @@ signed int chorus(signed int chorus_in)
 
 signed int test(signed int sample)
 {
+    /*
+    signed int x;
+    if (sample>0)
+        x = 1;
+    else
+        x = -1;
+    return (((2*sample)-(sample*sample))*x);
+     */
     
     /*
     unsigned int lost_bit = rand() % 15;
