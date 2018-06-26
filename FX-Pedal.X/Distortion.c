@@ -23,17 +23,17 @@ void distortion_set_percentage(int percentage)
     distortionPercentage = percentage;                      // save percentage to be displayed on lcd
     float threshold = 0.0035 * (100-distortionPercentage);     // calculate threshold using inverted percentage
     distortion_set_positive_cutoff(threshold);
-    distortion_set_positive_cutoff(threshold*(-1));    
+    distortion_set_negative_cutoff(threshold*(-1));    
 }
 
 void distortion_set_positive_cutoff(float threshold)
 {
-    Pthreshold = Q15(threshold);        // set upper limit
+    Pthreshold = Float2Fract(threshold);        // set upper limit
 }
 
 void distortion_set_negative_cutoff(float threshold)
 {
-    Nthreshold = Q15(threshold);   // set lower limit
+    Nthreshold = Float2Fract(threshold);   // set lower limit
 }
 
 void distortion_set_symetric(bool is_symetric)
