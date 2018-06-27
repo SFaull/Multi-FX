@@ -16,13 +16,13 @@ void initSPI(void)
     SPI1CON1bits.DISSCK = 0;    //clock enabled (Internal serial clock is enabled)
     SPI1CON1bits.DISSDO = 0;    //SDO enabled (SDOx pin is controlled by the module)
     SPI1CON1bits.MODE16 = 0;    //8 bit mode (set to 1 for 16 bit)
-    SPI1CON1bits.SMP = 0;       //data sampled in middle (Input data is sampled at the middle of data output time)
-    SPI1CON1bits.CKE = 1;       //data changes on falling edge (active to idle)
+    SPI1CON1bits.CKE = 0;       //data changes on falling edge (active to idle)
     SPI1CON1bits.CKP = 0;       //idle is low
-    SPI1CON1bits.PPRE = 2;      //4:1 primary prescaler
-    SPI1CON1bits.SPRE = 7;      //1:1 secondary prescaler (10Mhz SPI clock)
+    SPI1CON1bits.PPRE = 3;      //1:1 primary prescaler
+    SPI1CON1bits.SPRE = 6;      //2:1 secondary prescaler (20Mhz SPI clock)
     SPI1CON1bits.MSTEN = 1;     //master mode
-    SPI1STATbits.SPIEN = 1;     //enable SPI        
+    SPI1CON1bits.SMP = 0;       //data sampled in middle (Input data is sampled at the middle of data output time)
+    SPI1STATbits.SPIEN = 1;     //enable SPI      
 }
 
 void sram_fill(unsigned int sramdata) 
